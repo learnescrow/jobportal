@@ -9,7 +9,7 @@ import EmailIcon from "./emailIcon";
 function OTPInput({
   length = 6,
   onComplete,
-  reset
+  reset,
 }: {
   length: number;
   onComplete: (code: string) => void;
@@ -46,7 +46,10 @@ function OTPInput({
     }
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     // Backspace - go to previous input
     if (e.key === "Backspace") {
       e.preventDefault();
@@ -202,7 +205,9 @@ export default function Authentication() {
           setStep("otp");
         } catch (signUpError: any) {
           console.error("Signup error:", signUpError);
-          setError(signUpError?.errors?.[0]?.message || "Unable to create account.");
+          setError(
+            signUpError?.errors?.[0]?.message || "Unable to create account."
+          );
         }
       } else {
         setError(errorMessage || "Something went wrong. Please try again.");
@@ -216,7 +221,13 @@ export default function Authentication() {
   // VERIFY OTP (login OR signup)
   // -----------------------------------------------------
   const handleVerifyOtp = async () => {
-    if (isVerifying || !signInLoaded || !signUpLoaded || !otp || otp.length !== 6) {
+    if (
+      isVerifying ||
+      !signInLoaded ||
+      !signUpLoaded ||
+      !otp ||
+      otp.length !== 6
+    ) {
       if (!isVerifying && otp.length !== 6) {
         setError("Please enter the complete 6-digit code");
       }
@@ -361,11 +372,10 @@ export default function Authentication() {
   return (
     <section className="bg-white">
       <div className="flex h-screen gap-10 items-center justify-between p-2">
-
         {/* LEFT IMAGE */}
         <div className="relative w-[40%] h-[98vh] bg-[#f0eae3] rounded-[2rem] overflow-hidden hidden md:block lg:block">
           <Image
-            src="/login-pic-1.webp"
+            src="/worklanceauthimg.png"
             alt="login-pic"
             fill
             className="object-cover rounded-xl"
@@ -374,9 +384,12 @@ export default function Authentication() {
 
         {/* RIGHT CONTENT */}
         <div className="sm:w-full md:w-[50%] lg:w-[50%] w-full flex flex-col justify-center md:pl-8 md:pr-24 px-4 -mt-8">
-
           <h1 className="font-bold text-[#000] text-[28px] md:text-[62px] mb-4 md:mb-8">
-            {step === "email" ? "Sign In" : currentMode === "signin" ? "Welcome Back" : "Welcome"}
+            {step === "email"
+              ? "Sign In"
+              : currentMode === "signin"
+              ? "Welcome Back"
+              : "Welcome"}
           </h1>
 
           <p className="mb-6 font-semibold text-gray-600">
@@ -392,7 +405,6 @@ export default function Authentication() {
           )}
 
           <div className="space-y-4">
-
             {/* STEP 1 — EMAIL */}
             {step === "email" && (
               <>
@@ -412,8 +424,7 @@ export default function Authentication() {
                 <button
                   onClick={handleSendOtp}
                   disabled={loading || !email.trim()}
-                  className="bg-blue-600 text-white w-full py-4 rounded-full text-sm font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                  className="bg-blue-600 text-white w-full py-4 rounded-full text-sm font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
                   {loading ? "Sending..." : "Continue"}
                 </button>
               </>
@@ -433,8 +444,7 @@ export default function Authentication() {
                 <button
                   onClick={handleVerifyOtp}
                   disabled={loading || otp.length !== 6 || isVerifying}
-                  className="w-full py-4 rounded-full text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                  className="w-full py-4 rounded-full text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
                   {loading || isVerifying ? "Verifying..." : "Verify Code"}
                 </button>
 
@@ -442,16 +452,14 @@ export default function Authentication() {
                   <button
                     onClick={handleResendOtp}
                     disabled={resending || loading || isVerifying}
-                    className="flex-1 text-sm font-semibold text-gray-600 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition"
-                  >
+                    className="flex-1 text-sm font-semibold text-gray-600 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition">
                     {resending ? "Resending..." : "Resend Code"}
                   </button>
 
                   <button
                     onClick={handleChangeEmail}
                     disabled={loading || resending || isVerifying}
-                    className="flex-1 text-sm font-semibold text-gray-600 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition"
-                  >
+                    className="flex-1 text-sm font-semibold text-gray-600 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition">
                     Change Email
                   </button>
                 </div>
@@ -461,10 +469,18 @@ export default function Authentication() {
 
           <p className="text-xs text-gray-500 mt-8">
             By continuing, you agree to our{" "}
-            <span className="underline cursor-pointer hover:text-gray-700">Terms of Use</span>,{" "}
-            <span className="underline cursor-pointer hover:text-gray-700">Privacy Notice</span>,
-            and{" "}
-            <span className="underline cursor-pointer hover:text-gray-700">Cookie Notice</span>.
+            <span className="underline cursor-pointer hover:text-gray-700">
+              Terms of Use
+            </span>
+            ,{" "}
+            <span className="underline cursor-pointer hover:text-gray-700">
+              Privacy Notice
+            </span>
+            , and{" "}
+            <span className="underline cursor-pointer hover:text-gray-700">
+              Cookie Notice
+            </span>
+            .
           </p>
         </div>
       </div>
