@@ -16,8 +16,12 @@ export default async function DashboardLayout({
     <section className="flex h-screen bg-white">
       <Sidebar />
 
-      <main className="flex-1 p-6 overflow-y-auto">
-        <DashboardHeader />
+      <main className="flex-1 overflow-y-auto">
+        <div className="p-6 bg-gray-100">
+          {" "}
+          <DashboardHeader />
+        </div>
+
         {children}
       </main>
     </section>

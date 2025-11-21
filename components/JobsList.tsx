@@ -17,7 +17,7 @@ export default function JobsList({ jobs }: any) {
           <a
             key={job.id}
             href={jobUrl}
-            className="flex items-start justify-between bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-md transition">
+            className="flex flex-wrap  items-start justify-start md:justify-between gap-4 md:gap-0 bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-md transition">
             {/* LEFT */}
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
@@ -36,7 +36,7 @@ export default function JobsList({ jobs }: any) {
             </div>
 
             {/* RIGHT */}
-            <div className="flex flex-col items-end gap-2 whitespace-nowrap">
+            <div className="flex flex-col items-start md:items-end gap-2 whitespace-nowrap">
               {job.meta.closing_date && (
                 <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full">
                   {job.meta.closing_date}
