@@ -29,7 +29,7 @@ export const Sidebar = () => {
 
   return (
     <div
-      className={`flex h-full flex-col bg-black py-8 transition-all duration-300 ${
+      className={`hidden md:flex h-full flex-col bg-black py-8 transition-all duration-300 ${
         open ? "w-64" : "w-[100px]"
       }`}>
       {/* Logo */}

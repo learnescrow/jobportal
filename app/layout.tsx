@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { Lexend } from "next/font/google";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/header";
 
 export const metadata: Metadata = {
   title: "Worklance - Job Portal",
@@ -22,7 +24,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className="antialiased">
-          {children}
+          {" "}
+          <Navbar />
+          {children} <Footer />
         </body>
       </html>
     </ClerkProvider>

@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Sidebar from "@/components/sidebar";
+import Breadcrumb from "@/components/Breadcrumb";
+
 import DashboardHeader from "@/components/dashboard-header";
 
 export default async function DashboardLayout({
@@ -13,17 +14,12 @@ export default async function DashboardLayout({
   if (!session.userId) redirect("/auth");
 
   return (
-    <section className="flex h-screen bg-white">
-      <Sidebar />
+    <section className="mb-10">
+      <div className="my-4 px-6">
+        <Breadcrumb />
+      </div>
 
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-6 bg-gray-100">
-          {" "}
-          <DashboardHeader />
-        </div>
-
-        {children}
-      </main>
+      <main className="">{children}</main>
     </section>
   );
 }
