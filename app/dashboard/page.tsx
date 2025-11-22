@@ -57,7 +57,7 @@ export default function dashboard() {
               </p>
 
               <a
-                href="/post-job"
+                 href="mailto:anilkumar50833@gmail.com"
                 className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full transition">
                 <span className="mr-2 text-xl">＋</span>
                 Post a job

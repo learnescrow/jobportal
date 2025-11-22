@@ -1,3 +1,4 @@
+//File: app/jobs/%5Bslug%5D/page.tsx
 interface JobPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -7,9 +8,12 @@ import { Briefcase } from "lucide-react";
 export default async function PublicJobDetailPage(props: JobPageProps) {
   const { slug } = await props.params;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/job/${slug}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/wp-json/ukjobs/v1/jobs/${slug}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     return (

@@ -1,10 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 export interface Job {
   id: number;
   slug: string;
   title: string;
+  description: string;
+  image?: string;
+  categories: string[];
   meta: {
     company: string;
     location: string;
@@ -14,52 +18,52 @@ export interface Job {
     closing_date: string;
     apply_link: string;
   };
-  description: string;
+  date: string;
 }
 
 export function useJobs() {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadJobs() {
       try {
-        const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/all");
-        const data = await res.json();
-        setJobs(data);
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+        const url = baseUrl
+          ? `${baseUrl}/wp-json/ukjobs/v1/jobs`
+          : "https://lightpink-gull-213019.hostingersite.com/wp-json/ukjobs/v1/jobs";
+
+        console.log("🔍 Fetching Jobs:", url);
+
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) throw new Error(`API Error: ${res.status}`);
+
+        const data: Job[] = await res.json();
+        console.log("📦 FULL JOBS DATA:", data);
+
+        if (!Array.isArray(data)) throw new Error("Invalid API response");
+
+        // 👇 Remove paid jobs here
+        const publicJobs = data.filter(
+          (job) =>
+            !job.categories?.some((cat) => cat.toLowerCase() === "paidjob")
+        );
+
+        console.log(`🚀 Public Jobs: ${publicJobs.length}`);
+        setJobs(publicJobs);
+        setError(null);
       } catch (err) {
-        console.error("Jobs API error:", err);
+        console.error("❌ Fetch Error:", err);
+        setError(err instanceof Error ? err.message : "Unknown error");
+        setJobs([]);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     loadJobs();
   }, []);
 
-  return { jobs, loading };
-}
-
-export function useJobDetail(slug: string | null) {
-  const [job, setJob] = useState<Job | null>(null);
-
-  useEffect(() => {
-    if (!slug) return;
-
-    async function loadJob() {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/job/${slug}`
-        );
-
-        const data = await res.json();
-        setJob(data);
-      } catch (err) {
-        console.error("Job detail API error:", err);
-      }
-    }
-
-    loadJob();
-  }, [slug]);
-
-  return job;
+  return { jobs, loading, error };
 }
