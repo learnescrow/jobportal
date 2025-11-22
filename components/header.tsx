@@ -141,7 +141,8 @@ export default function Navbar() {
                         {user?.fullName || "User"}
                       </div>
                       <div className="text-gray-500 text-sm overflow-auto">
-                        {user?.primaryEmailAddress?.emailAddress || "user-email"}
+                        {user?.primaryEmailAddress?.emailAddress ||
+                          "user-email"}
                       </div>
                     </div>
                   </div>
@@ -152,19 +153,25 @@ export default function Navbar() {
                     {isSignedIn ? (
                       <>
                         <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
-                          <button onClick={() => router.push("/dashboard")}>
+                          <button
+                            onClick={() => router.push("/dashboard")}
+                            className="flex items-center gap-2 text-gray-700 hover:text-[#377DFF] transition font-bold">
                             <NewSvg />
                             Dashboard
                           </button>
                         </li>
                       </>
                     ) : (
-                      <><li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
-                          <button onClick={() => router.push("/auth")}>
+                      <>
+                        <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
+                          <button
+                            onClick={() => router.push("/auth")}
+                            className="flex items-center gap-2 text-gray-700 hover:text-[#377DFF] transition font-bold">
                             <NewSvg />
                             Login
                           </button>
-                        </li></>
+                        </li>
+                      </>
                     )}
 
                     {/* Support */}
