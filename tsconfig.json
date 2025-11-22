@@ -28,7 +28,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
-, "middleware.js"  ],
+    "**/*.mts",
+    "middleware.js",
+    "components/layouts"
+  ],
   "exclude": ["node_modules"]
 }

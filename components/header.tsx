@@ -149,7 +149,7 @@ export default function Navbar() {
                   {/* MENU ITEMS */}
                   <ul className="pt-2">
                     {/* Settings */}
-                    {isSignedIn && (
+                    {isSignedIn ? (
                       <>
                         <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
                           <button onClick={() => router.push("/dashboard")}>
@@ -158,6 +158,13 @@ export default function Navbar() {
                           </button>
                         </li>
                       </>
+                    ) : (
+                      <><li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
+                          <button onClick={() => router.push("/auth")}>
+                            <NewSvg />
+                            Login
+                          </button>
+                        </li></>
                     )}
 
                     {/* Support */}
