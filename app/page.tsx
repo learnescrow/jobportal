@@ -5,6 +5,8 @@ import JobsList from "@/components/JobsList";
 import { useJobs } from "@/hooks/useJobs";
 import { usePaidJobs } from "@/hooks/usePaidJobs";
 import { useRouter } from "next/navigation";
+import SearchBar from "@/components/Search-bar";
+import LogoRow from "@/components/logo-stripes";
 
 export default function Home() {
   const router = useRouter();
@@ -17,7 +19,10 @@ export default function Home() {
 
   return (
     <>
+      <SearchBar />
+
       <Hero />
+      <LogoRow />
 
       {/* PUBLIC JOBS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mb-14">

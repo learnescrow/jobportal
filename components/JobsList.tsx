@@ -36,12 +36,35 @@ export default function JobsList({ jobs }: any) {
             </div>
 
             {/* RIGHT */}
+            {/* RIGHT */}
             <div className="flex flex-col items-start md:items-end gap-2 whitespace-nowrap">
-              {job.meta.closing_date && (
-                <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full">
-                  {job.meta.closing_date}
-                </span>
-              )}
+              {job.meta.closing_date
+                ? (() => {
+                    const closingDate = new Date(job.meta.closing_date);
+                    const now = new Date();
+                    const isClosed = closingDate < now;
+
+                    const formattedClosing = closingDate.toLocaleDateString(
+                      "en-UK",
+                      {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }
+                    );
+
+                    return (
+                      <span
+                        className={`text-xs px-3 py-1 rounded-full ${
+                          isClosed
+                            ? "bg-red-100 text-red-700"
+                            : "bg-blue-50 text-blue-600"
+                        }`}>
+                        {isClosed ? "Closed" : `Ends: ${formattedClosing}`}
+                      </span>
+                    );
+                  })()
+                : null}
 
               <span className="text-xs bg-green-50 text-green-700 px-3 py-1 rounded-full">
                 {job.meta.location}

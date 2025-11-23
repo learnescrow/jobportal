@@ -110,3 +110,13 @@ input:-webkit-autofill {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+
+/* If using Tailwind plugin, skip this */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
