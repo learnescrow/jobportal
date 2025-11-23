@@ -14,7 +14,7 @@ export default function SearchBar() {
   ];
 
   return (
-    <section className="w-full h-[60vh] md:h-[100vh] bg-[#5D2BFF] flex  justify-center px-4 ">
+    <section className="w-full h-[80vh] md:h-[100vh] bg-[#5D2BFF] flex  justify-center px-4 ">
       <div className="w-full max-w-3xl md:mt-30 mt-50">
         <h1 className="text-4xl sm:text-4xl lg:text-4xl xl:text-6xl font-bold text-white text-center leading-tight mb-6">
           The #1 Platform for
