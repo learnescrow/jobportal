@@ -19,6 +19,7 @@ export async function POST(req: Request) {
         { error: "Price ID is required" },
         { status: 400 }
       );
+      //added 
     }
 
     const session = await stripe.checkout.sessions.create({
