@@ -69,7 +69,7 @@ export default function Pricing() {
           <div className="mt-8">
             <PaymentButton
               label="Subscribe monthly"
-              plan="price_1SXQAzJ6pHCh8WErdOYY2dwB"
+              plan="price_1SXQgwJ6pHCh8WErE4m7R6Jh"
             />
           </div>
         </motion.div>
