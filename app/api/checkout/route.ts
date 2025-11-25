@@ -4,7 +4,11 @@ import Stripe from "stripe";
 import { NextResponse } from "next/server";
 
 // DO NOT set apiVersion manually
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error("Stripe secret key is missing");
+}
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req: Request) {
   try {
