@@ -100,7 +100,7 @@ export default function Navbar() {
             {/* View plans (Desktop only) */}
             <Link
               href="/pricing"
-              className="hidden md:flex px-5 py-2 border border-gray-300 rounded-full text-sm bg-white hover:bg-gray-50 transition">
+              className="hidden md:flex px-5 py-2  hover:text-gray-700 rounded-full text-sm text-white hover:bg-gray-50 transition">
               View plans
             </Link>
 
@@ -126,16 +126,15 @@ export default function Navbar() {
           {/* Post a job */}
           <Link
             href="mailto:worklancehire@gmail.com"
-            className="hidden md:flex items-center bg-white hover:bg-gray-200 text-black px-5 py-2 rounded-full font-medium transition whitespace-nowrap">
+            className="hidden md:flex items-center text-sm text-white hover:underline text-black px-5 py-2 rounded-full  transition whitespace-nowrap">
             <Plus size={18} className="mr-1" />
             Post a job
           </Link>
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdown((v) => !v)}
-              className="font-bold text-white rounded-full overflow-hidden  cursor-pointer">
+              className="font-bold  rounded-full overflow-hidden  cursor-pointer bg-white rounded-full px-5 py-2  hover:underline">
               Menu
-              
             </button>
 
             {/* DROPDOWN */}

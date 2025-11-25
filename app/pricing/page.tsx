@@ -67,7 +67,10 @@ export default function Pricing() {
           </ul>
 
           <div className="mt-8">
-            <PaymentButton plan="monthly" label="Subscribe Monthly" />
+            <PaymentButton
+              label="Subscribe monthly"
+              plan="price_1SXQAzJ6pHCh8WErdOYY2dwB"
+            />
           </div>
         </motion.div>
 
@@ -77,15 +80,15 @@ export default function Pricing() {
           animate={fadeUp.animate}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="backdrop-blur-xl bg-white border border-gray-100 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-blue-700 mb-4">Pro Yearly</h2>
+          <h2 className="text-2xl font-semibold text-blue-700 mb-4">
+            Pro Yearly
+          </h2>
           <p className="text-gray-700 text-sm mb-6">
             Save more with yearly billing
           </p>
 
           <p className="text-4xl font-bold text-blue mb-2">€264</p>
-          <p className="text-gray-700 mb-6">
-            11 months × €24 (1st month free)
-          </p>
+          <p className="text-gray-700 mb-6">11 months × €24 (1st month free)</p>
 
           <ul className="space-y-3 text-gray-700 text-sm">
             <li>• All monthly plan features</li>
@@ -95,7 +98,10 @@ export default function Pricing() {
           </ul>
 
           <div className="mt-8">
-            <PaymentButton plan="yearly" label="Subscribe Yearly" />
+            <PaymentButton
+              plan="price_1SXPwtJ6pHCh8WErnT8H8J67"
+              label="Subscribe Yearly"
+            />
           </div>
         </motion.div>
       </div>

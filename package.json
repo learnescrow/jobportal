@@ -11,12 +11,14 @@
   "dependencies": {
     "@clerk/nextjs": "^6.35.2",
     "@iconify/react": "^6.0.2",
+    "@stripe/stripe-js": "^8.5.3",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.554.0",
     "motion": "^12.23.24",
     "next": "16.0.3",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "stripe": "^20.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
