@@ -22,86 +22,108 @@ export default function Pricing() {
       </motion.h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
-        {/* FREE PLAN */}
+        {/* ⭐ PART-TIME PLAN — £5 */}
         <motion.div
           initial={fadeUp.initial}
           animate={fadeUp.animate}
           transition={fadeUp.transition}
           className="backdrop-blur-xl bg-white border border-gray-100 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-black mb-4">Free Plan</h2>
-          <p className="text-gray-700 text-sm mb-6">Perfect for job seekers</p>
-          <p className="text-4xl font-bold text-blue-700 mb-6">€0</p>
+          <h2 className="text-2xl font-semibold text-black mb-4">
+            Part-Time Plan
+          </h2>
+          <p className="text-gray-700 text-sm mb-6">
+            Boost your hiring for flexible roles without breaking the budget.
+          </p>
+          <p className="text-4xl font-bold text-blue-700 mb-6">£5 / month</p>
 
           <ul className="space-y-3 text-black text-sm">
-            <li>• Immediate job updates (UK)</li>
-            <li>• Immediate job updates (US)</li>
-            <li>• Job alerts for other countries</li>
+            <li className="leading-[25px]">
+              • Highlight your part-time vacancies to local talent
+            </li>
+            <li className="leading-[25px]">
+              • Live 30-day listing included every month
+            </li>
+            <li className="leading-[25px]">
+              • Perfect for small businesses or seasonal staffing
+            </li>
+            <li className="leading-[25px]">
+              • Designed to fill roles quickly and efficiently
+            </li>
           </ul>
 
           <div className="mt-8">
-            <PaymentButton plan="free" label="Start Free" />
+            <PaymentButton plan="part_time" label="Subscribe £5" />
           </div>
         </motion.div>
 
-        {/* MONTHLY PLAN */}
+        {/* 🚀 FULL-TIME PLAN — £15 */}
         <motion.div
           initial={fadeUp.initial}
           animate={fadeUp.animate}
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="backdrop-blur-xl bg-white border border-purple-400 rounded-3xl p-8 shadow-2xl scale-105">
           <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-            Pro Monthly
+            Full-Time Plan
           </h2>
+
           <p className="text-gray-700 text-sm mb-6">
-            Best for active job hunters
+            Secure top UK talent for long-term success.
           </p>
 
-          <p className="text-4xl font-bold text-blue mb-2">€5</p>
-          <p className="text-gray-700 mb-6">per month</p>
+          <p className="text-4xl font-bold text-blue mb-2">£15 / month</p>
 
           <ul className="space-y-3 text-gray-700 text-sm">
-            <li>• Referral part-time jobs (UK)</li>
-            <li>• Job assistance</li>
-            <li>• Consultancy via chat support</li>
-            <li>• Priority job recommendations</li>
+            <li className="leading-[25px]">
+              • 45-day featured listing renewed every month
+            </li>
+            <li className="leading-[25px]">
+              • Increased visibility across search results
+            </li>
+            <li className="leading-[25px]">
+              • Ideal for building strong and committed teams
+            </li>
+            <li className="leading-[25px]">
+              • Attract experienced professionals ready to grow with you
+            </li>
           </ul>
 
           <div className="mt-8">
-            <PaymentButton
-              label="Subscribe monthly"
-              plan="price_1SXQgwJ6pHCh8WErE4m7R6Jh"
-            />
+            <PaymentButton label="Subscribe £15" plan="full_time" />
           </div>
         </motion.div>
 
-        {/* YEARLY PLAN */}
+        {/* 🌍 SPONSORSHIP PLAN — £25 */}
         <motion.div
           initial={fadeUp.initial}
           animate={fadeUp.animate}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="backdrop-blur-xl bg-white border border-gray-100 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
           <h2 className="text-2xl font-semibold text-blue-700 mb-4">
-            Pro Yearly
+            Sponsorship Plan
           </h2>
           <p className="text-gray-700 text-sm mb-6">
-            Save more with yearly billing
+            Hire globally and expand your talent reach.
           </p>
 
-          <p className="text-4xl font-bold text-blue mb-2">€55</p>
-          <p className="text-gray-700 mb-6">11 months × €5 (1st month free)</p>
+          <p className="text-4xl font-bold text-blue mb-2">£25 / month</p>
 
           <ul className="space-y-3 text-gray-700 text-sm">
-            <li>• All monthly plan features</li>
-            <li>• First month completely free</li>
-            <li>• Exclusive career support</li>
-            <li>• Free upgrade access to new features</li>
+            <li className="leading-[25px]">
+              • Premium 60-day listing with sponsorship highlight
+            </li>
+            <li className="leading-[25px]">
+              • Tailored visibility for skilled international applicants
+            </li>
+            <li className="leading-[25px]">
+              • Perfect for specialist and high-demand roles
+            </li>
+            <li className="leading-[25px]">
+              • Helps fill vacancies that require advanced qualifications
+            </li>
           </ul>
 
           <div className="mt-8">
-            <PaymentButton
-              plan="price_1SXn8hJ6pHCh8WErtERn6BCN"
-              label="Subscribe Yearly"
-            />
+            <PaymentButton plan="sponsorship" label="Subscribe £25" />
           </div>
         </motion.div>
       </div>
