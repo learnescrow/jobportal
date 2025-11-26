@@ -56,7 +56,7 @@ export default function Pricing() {
             Best for active job hunters
           </p>
 
-          <p className="text-4xl font-bold text-blue mb-2">€24</p>
+          <p className="text-4xl font-bold text-blue mb-2">€5</p>
           <p className="text-gray-700 mb-6">per month</p>
 
           <ul className="space-y-3 text-gray-700 text-sm">
@@ -69,7 +69,7 @@ export default function Pricing() {
           <div className="mt-8">
             <PaymentButton
               label="Subscribe monthly"
-              plan="price_1SXQgwJ6pHCh8WErE4m7R6Jh"
+              plan="price_1SXQAzJ6pHCh8WErdOYY2dwB"
             />
           </div>
         </motion.div>
@@ -87,8 +87,8 @@ export default function Pricing() {
             Save more with yearly billing
           </p>
 
-          <p className="text-4xl font-bold text-blue mb-2">€264</p>
-          <p className="text-gray-700 mb-6">11 months × €24 (1st month free)</p>
+          <p className="text-4xl font-bold text-blue mb-2">€55</p>
+          <p className="text-gray-700 mb-6">11 months × €5 (1st month free)</p>
 
           <ul className="space-y-3 text-gray-700 text-sm">
             <li>• All monthly plan features</li>
@@ -99,7 +99,7 @@ export default function Pricing() {
 
           <div className="mt-8">
             <PaymentButton
-              plan="price_1SXPwtJ6pHCh8WErnT8H8J67"
+              plan="price_1SXn8hJ6pHCh8WErtERn6BCN"
               label="Subscribe Yearly"
             />
           </div>

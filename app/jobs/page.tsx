@@ -57,7 +57,7 @@ export default function PublicJobsPage() {
               </p>
 
               <a
-                 href="mailto:anilkumar50833@gmail.com"
+                 href="/post-a-job"
                 className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full transition">
                 <span className="mr-2 text-xl">＋</span>
                 Post a job

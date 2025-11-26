@@ -1,3 +1,4 @@
+import Accordion from "@/components/accordion";
 interface JobPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -111,57 +112,30 @@ export default async function PublicJobDetailPage(props: JobPageProps) {
         </div>
 
         {/* TABLE IF ANY ADDITIONAL META EXISTS */}
+        {/* JOB DETAILS ACCORDION */}
         <div className="mt-16 mb-32">
           <h2 className="text-2xl font-bold mb-4">Job Details</h2>
 
-          <table className="w-full border-2 border-gray-100 rounded-xl overflow-hidden">
-            <tbody>
-              {/* Salary */}
-              {job.meta.salary && (
-                <tr className="border-b border-gray-100">
-                  <td className="p-4 font-medium bg-gray-50 w-1/3">Salary</td>
-                  <td className="p-4">
-                    €{Number(job.meta.salary).toLocaleString()}
-                  </td>
-                </tr>
-              )}
+          {job.meta.salary && (
+            <Accordion title="Salary">
+              €{Number(job.meta.salary).toLocaleString()}
+            </Accordion>
+          )}
 
-              {/* Experience */}
-              {job.meta.experience && (
-                <tr className="border-b border-gray-100">
-                  <td className="p-4 font-medium bg-gray-50 w-1/3">
-                    Experience
-                  </td>
-                  <td className="p-4">{job.meta.experience} years</td>
-                </tr>
-              )}
+          {job.meta.experience && (
+            <Accordion title="Experience">
+              {job.meta.experience} years
+            </Accordion>
+          )}
 
-              {/* Apply Link */}
-              <tr>
-                <td className="p-4 font-medium bg-gray-50 w-1/3">Apply Link</td>
-                <td className="p-4">
-                  <a
-                    href={job.meta.apply_link}
-                    target="_blank"
-                    className="text-blue-600 underline">
-                    {job.meta.apply_link}
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div
-            className="
-  fixed bottom-4 left-1/2 -translate-x-1/2 z-50 
-  md:static md:translate-x-0 md:bottom-auto md:left-auto flex  w-full md:w-auto mt-10 p-4 md:p-0   
-">
+          <Accordion title="Apply Link">
             <a
               href={job.meta.apply_link}
               target="_blank"
-              className="w-full md:w-auto px-8 py-4 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition shadow-lg md:shadow-none text-center ">
-              Apply for position
+              className="text-blue-600 underline break-all">
+              {job.meta.apply_link}
             </a>
-          </div>
+          </Accordion>
         </div>
       </div>
     </div>

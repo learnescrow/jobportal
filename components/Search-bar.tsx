@@ -18,20 +18,21 @@ export default function SearchBar() {
     "Freshers",
     "local jobs",
   ];
+  //bg-[#5D2BFF]
 
   const navigateJobUrl = (slug: string) =>
     isSignedIn ? `/dashboard/jobs/${slug}` : `/jobs/${slug}`;
 
   return (
-    <section className="relative w-full h-[100vh] bg-[#5D2BFF] flex justify-center px-4">
+    <section className="relative w-full h-[100vh] bg-white flex justify-center px-4 bg-gradient-to-b from-white to-[#5D2BFF]/10">
       <div className="w-full max-w-3xl mt-40 md:mt-56">
-        <h1 className="text-4xl sm:text-5xl xl:text-6xl font-bold text-white text-center leading-tight mb-6">
+        <h1 className="text-4xl sm:text-5xl xl:text-6xl font-bold  text-center leading-tight mb-6">
           The #1 Platform for
           <br /> all Opportunities
         </h1>
 
         {/* Search Bar */}
-        <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg p-2 rounded-full">
+        <div className="relative bg-white/10 backdrop-blur-xl border border-[#5D2BFF]/20 shadow-lg p-2 rounded-full">
           <input
             type="text"
             placeholder="Search for jobs..."
@@ -68,7 +69,9 @@ export default function SearchBar() {
               ">
               <div className="w-full z-50  h-auto rounded-[28px]">
                 {loading && (
-                  <p className="text-center text-white text-gray-500 py-3">Searching…</p>
+                  <p className="text-center text-white text-gray-500 py-3">
+                    Searching…
+                  </p>
                 )}
 
                 {!loading && jobs.length === 0 && (
@@ -112,9 +115,9 @@ export default function SearchBar() {
               key={item}
               onClick={() => setQuery(item)}
               className="
-                text-white text-sm bg-white/20 border border-white/30 whitespace-nowrap
+                 text-sm bg-[#5D2BFF]/10 border border-[#5D2BFF]/30 whitespace-nowrap
                 backdrop-blur-md px-4 py-2 rounded-full
-                hover:bg-white/30 hover:scale-105 transition-all
+                hover:bg-white/30 hover:underline transition-all
               ">
               {item}
             </button>

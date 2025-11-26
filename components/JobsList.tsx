@@ -17,7 +17,7 @@ export default function JobsList({ jobs }: any) {
           <a
             key={job.id}
             href={jobUrl}
-            className="flex flex-wrap  items-start justify-start md:justify-between gap-4 md:gap-0 bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-md transition">
+            className="flex flex-wrap  items-start justify-start md:justify-between gap-4 md:gap-0 bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-md transition overflow-hidden">
             {/* LEFT */}
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">

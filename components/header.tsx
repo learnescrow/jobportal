@@ -21,6 +21,7 @@ export default function Navbar() {
 
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [clicked, setClicked] = useState(false);
 
   const darkMode = false; // placeholder — adjust based on your logic
   const setDarkMode = () => {};
@@ -50,14 +51,14 @@ export default function Navbar() {
   }, [dropdown]);
 
   return (
-    <header className="w-full  bg-[#5D2BFF]">
+    <header className="w-full ">
       <div className="mx-auto px-4 py-4 flex items-center justify-between">
         {/* LEFT — LOGO + INSTAGRAM (stack on very small screens) */}
         <div className="flex items-start gap-2 min-[350px]:items-center min-[350px]:flex-row flex-col">
           {/* Logo */}
           <Link
             href="/"
-            className="text-xl font-bold text-white whitespace-nowrap flex flex-row items-center gap-2 ">
+            className="text-xl font-bold whitespace-nowrap flex flex-row items-center gap-2 ">
             <div className="h-10 md:h-14 w-10 md:w-14 rounded-full flex justify-center items-center overflow-hidden ">
               <Image
                 src="/logoicons.png"
@@ -68,9 +69,7 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col gap-0">
-              <p className="text-white font-bold whitespace-nowrap">
-                WorkLance
-              </p>
+              <p className=" font-bold whitespace-nowrap">WorkLance</p>
               <span className="text-[10px]">
                 One platform, all oppurtunities{" "}
               </span>
@@ -88,25 +87,25 @@ export default function Navbar() {
           </Link>
           <div className="hidden md:flex flex-row items-center gap-4 ml-6">
             {/* Find jobs (Desktop only) */}
-            <Link href="/" className="text-sm text-white hover:underline">
+            <Link href="/" className="text-sm hover:underline">
               Home
             </Link>
 
             <Link
               href="/jobs"
-              className="text-sm text-white hover:underline hidden md:block ml-4">
+              className="text-sm  hover:underline hidden md:block ml-4">
               Find jobs
             </Link>
             {/* View plans (Desktop only) */}
             <Link
               href="/pricing"
-              className="hidden md:flex px-5 py-2  hover:text-gray-700 rounded-full text-sm text-white hover:bg-gray-50 transition">
+              className="hidden md:flex px-5 py-2  hover:text-gray-700 rounded-full text-sm  hover:underline transition">
               View plans
             </Link>
 
             <Link
               href="mailto:worklancehire@gmail.com"
-              className="text-sm text-white hover:underline hidden md:block">
+              className="text-sm  hover:underline hidden md:block">
               Contact
             </Link>
           </div>
@@ -118,23 +117,26 @@ export default function Navbar() {
           <Link
             href="https://www.instagram.com/worklance_hire?igsh=ZWw4d3A0OHhpMGZ4&utm_source=ig_contact_invite"
             target="_blank"
-            className="hidden md:flex items-center gap-1 text-sm text-white hover:underline">
+            className="hidden md:flex items-center gap-1 text-sm  hover:underline">
             <Instagram size={18} />
             Follow on Insta
           </Link>
 
           {/* Post a job */}
           <Link
-            href="mailto:worklancehire@gmail.com"
-            className="hidden md:flex items-center text-sm text-white hover:underline text-black px-5 py-2 rounded-full  transition whitespace-nowrap">
+            href="/post-a-job"
+            className="hidden md:flex items-center text-sm  hover:underline text-black px-5 py-2 rounded-full  transition whitespace-nowrap">
             <Plus size={18} className="mr-1" />
             Post a job
           </Link>
           <div className="relative" ref={dropdownRef}>
             <button
-              onClick={() => setDropdown((v) => !v)}
-              className="font-bold  rounded-full overflow-hidden  cursor-pointer bg-white rounded-full px-5 py-2  hover:underline">
-              Menu
+              onClick={() => {
+                setClicked((prev) => !prev);
+                setDropdown((v) => !v);
+              }}
+              className="font-bold rounded-full overflow-hidden cursor-pointer bg-[#5d2bff] text-white px-5 py-2 hover:underline">
+              {clicked ? "Close" : "Menu"}
             </button>
 
             {/* DROPDOWN */}

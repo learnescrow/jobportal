@@ -37,7 +37,7 @@ export default function Home() {
             </p>
 
             <a
-              href="mailto:anilkumar50833@gmail.com"
+              href="/post-a-job"
               className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full transition">
               <span className="mr-2 text-xl">＋</span>
               Post a job
@@ -58,18 +58,11 @@ export default function Home() {
         ) : (
           <div className="relative">
             {/* The blurred premium job list */}
-            <div className="opacity-30 blur-sm pointer-events-none select-none">
+            <div className="">
               <JobsList jobs={paidJobs} />
             </div>
 
-            {/* Overlay CTA */}
-            <div className="absolute inset-0 flex justify-center items-center">
-              <button
-                onClick={() => router.push("/pricing")}
-                className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold shadow-xl hover:bg-yellow-400">
-                Unlock Premium Jobs 🔒
-              </button>
-            </div>
+           
           </div>
         )}
       </section>
