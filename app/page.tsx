@@ -49,7 +49,7 @@ export default function Home() {
       {/* PAID JOBS */}
       {/* PAID JOBS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mb-20">
-        <h2 className="text-2xl font-bold mb-6">Premium Jobs</h2>
+        <h2 className="text-2xl font-bold mb-6">PartTime Jobs</h2>
 
         {loadingPaid ? (
           <p>Loading premium jobs...</p>

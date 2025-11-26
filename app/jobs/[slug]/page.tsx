@@ -3,14 +3,18 @@ import { useEffect, useState } from "react";
 import Accordion from "@/components/accordion";
 import { Briefcase } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { usePaidStatus } from "@/hooks/usePaidStatus";
+import PremiumPopup from "@/components/PremiumPopup";
 
 interface JobPageProps {
   params: { slug: string };
 }
 export default function PublicJobDetailPage({ params }: JobPageProps) {
-   const router = useRouter();
+  const router = useRouter();
   const [job, setJob] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { paid, loading: loadingPaidStatus } = usePaidStatus();
+  const [showPopup, setShowPopup] = useState(false);
 
   const [isPaidJob, setIsPaidJob] = useState(false);
 
@@ -73,10 +77,10 @@ export default function PublicJobDetailPage({ params }: JobPageProps) {
 
           <h3 className="text-lg font-semibold">{job.meta.company}</h3>
 
-          {isPaidJob ? (
-            <span  
-            onClick={() => router.push("/pricing")}
-            className="text-sm text-gray-400 mt-1 py-6 mb-6 cursor-pointer  hover:underline">
+          {!paid && isPaidJob ? (
+            <span
+              onClick={() => setShowPopup(true)}
+              className="text-sm text-gray-400 mt-1 py-2 mb-6 cursor-pointer  hover:underline">
               Website link locked 🔒
             </span>
           ) : (
@@ -88,9 +92,9 @@ export default function PublicJobDetailPage({ params }: JobPageProps) {
             </a>
           )}
 
-          {isPaidJob ? (
+          {!paid && isPaidJob ? (
             <button
-               onClick={() => router.push("/pricing")}
+              onClick={() => setShowPopup(true)}
               className="w-full md:w-auto px-8 py-3 bg-blue-600  text-white
                  rounded-full font-medium cursor-pointer shadow-lg md:shadow-none">
               🔒 Subscribe to apply
@@ -183,9 +187,9 @@ export default function PublicJobDetailPage({ params }: JobPageProps) {
     md:static md:translate-x-0 md:bottom-auto md:left-auto 
     flex w-full md:w-auto mt-10 p-4 md:p-0
 ">
-        {isPaidJob ? (
+        {!paid && isPaidJob ? (
           <button
-             onClick={() => router.push("/pricing")}
+            onClick={() => setShowPopup(true)}
             className="w-full md:w-auto px-8 py-4 bg-blue-600  text-white
                  rounded-full font-medium cursor-pointer shadow-lg md:shadow-none">
             🔒 Subscribe to apply
@@ -201,6 +205,7 @@ export default function PublicJobDetailPage({ params }: JobPageProps) {
           </a>
         )}
       </div>
+      <PremiumPopup open={showPopup} onClose={() => setShowPopup(false)} />
     </div>
   );
 }

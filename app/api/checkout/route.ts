@@ -1,27 +1,26 @@
-//File :-/app/api/checkout/route.ts
-// File :- /app/api/checkout/route.ts
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
-// DO NOT set apiVersion manually
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("Stripe secret key is missing");
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
   try {
-    const { priceId } = await req.json();
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
 
+    const { priceId } = await req.json();
     if (!priceId) {
       return NextResponse.json(
         { error: "Price ID is required" },
         { status: 400 }
       );
-//STRIPE_PUBLISHABLE_KEY
-
-      //added 
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -33,7 +32,9 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-
+      metadata: {
+        userId, // 🔥 SUPER IMPORTANT
+      },
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cancel`,
     });

@@ -15,9 +15,7 @@ export default async function DashboardLayout({
 
   return (
     <section className="mb-10">
-      <div className="my-4 px-6">
-        <Breadcrumb />
-      </div>
+      
 
       <main className="">{children}</main>
     </section>

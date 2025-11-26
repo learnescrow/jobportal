@@ -176,43 +176,65 @@ export default function Navbar() {
                     {/* Settings */}
                     {isSignedIn ? (
                       <>
-                        <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
+                        <li className="p-3 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
                           <button
                             onClick={() => router.push("/dashboard")}
-                            className="flex items-center gap-2 text-gray-700 hover:text-[#377DFF] transition font-bold">
-                            <NewSvg />
+                            className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
                             Dashboard
                           </button>
                         </li>
                       </>
                     ) : (
                       <>
-                        <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
+                        <li className="p-3 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
                           <button
                             onClick={() => router.push("/auth")}
-                            className="flex items-center gap-2 text-gray-700 hover:text-[#377DFF] transition font-bold">
-                            <NewSvg />
+                            className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
                             Login
                           </button>
                         </li>
                       </>
                     )}
+                    {/* MOBILE ONLY OPTIONS */}
+                    <li className="p-3 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl md:hidden">
+                      <button
+                        onClick={() => router.push("/")}
+                        className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
+                        Home
+                      </button>
+                    </li>
+
+                    <li className="p-3 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl md:hidden">
+                      <button
+                        onClick={() => router.push("/jobs")}
+                        className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
+                        Find jobs
+                      </button>
+                    </li>
+
+                    <li className="p-3 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl md:hidden mb-2">
+                      <button
+                        onClick={() => router.push("/pricing")}
+                        className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
+                        View plans
+                      </button>
+                    </li>
 
                     {/* Support */}
                     <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
-                      <button
-                        onClick={() => router.push("/support")}
-                        className="flex items-center gap-2 text-gray-700 hover:text-[#377DFF] transition font-bold">
+                      <a
+                        href="mailto:worklancehire@gmail.com"
+                        className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
                         <HelpSvg />
                         Contact support
-                      </button>
+                      </a>
                     </li>
 
                     {/* News */}
                     <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
                       <button
                         onClick={() => router.push("/news")}
-                        className="flex items-center gap-2 text-gray-700 hover:text-[#377DFF] transition font-bold">
+                        className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
                         <NewSvg />
                         News
                       </button>
@@ -222,7 +244,7 @@ export default function Navbar() {
                     <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
                       <button
                         onClick={() => signOut({ redirectUrl: "/auth" })}
-                        className="flex items-center gap-2 text-gray-700 hover:text-red-500 transition font-bold w-full">
+                        className="flex items-center gap-2 text-black hover:text-red-500 transition font-bold w-full">
                         <LogoutSVG />
                         Log out
                       </button>
