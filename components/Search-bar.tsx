@@ -4,11 +4,13 @@ import { ArrowRight, Briefcase } from "lucide-react";
 import { useSearchJobs } from "@/hooks/useSearchJobs";
 import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
   const { jobs, loading } = useSearchJobs(query);
   const { isSignedIn } = useAuth();
+  const router = useRouter();
 
   const filters = [
     "Internships",
@@ -113,7 +115,7 @@ export default function SearchBar() {
           {filters.map((item) => (
             <button
               key={item}
-              onClick={() => setQuery(item)}
+              onClick={() => router.push("/jobs")}
               className="
                  text-sm bg-[#5D2BFF]/10 border border-[#5D2BFF]/30 whitespace-nowrap
                 backdrop-blur-md px-4 py-2 rounded-full
