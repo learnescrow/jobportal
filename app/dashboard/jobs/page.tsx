@@ -6,7 +6,7 @@ import { useJobs } from "@/hooks/useJobs";
 import JobFilters from "@/components/JobFilters";
 import JobsList from "@/components/JobsList";
 
-export default function DashJobsPage() {
+export default function PublicJobsPage() {
   const { jobs, loading } = useJobs();
   const [filterType, setFilterType] = useState("");
 
@@ -28,8 +28,8 @@ export default function DashJobsPage() {
 
   return (
     <div className="">
-      <section className="w-full bg-gray-100  py-10 px-4 md:px-0  ">
-        <div className="my-16 max-w-6xl mx-auto ">
+      <section className="w-full bg-gray-100 py-6  md:py-10 px-4 md:px-0">
+        <div className="my-22 max-w-6xl mx-auto ">
           <h1 className="text-4xl font-bold mb-8">Find your dream job</h1>
 
           {/* FILTERS */}
@@ -41,7 +41,7 @@ export default function DashJobsPage() {
         </div>
       </section>
       <section>
-        <div className="my-10 max-w-6xl mx-auto  px-4 md:px-0  ">
+        <div className="my-10 max-w-6xl mx-auto px-4 md:px-0">
           <h2 className="text-2xl font-bold mb-6">All jobs</h2>
           <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-10">
             {/* LEFT – Jobs */}
@@ -57,7 +57,7 @@ export default function DashJobsPage() {
               </p>
 
               <a
-                href="/post-job"
+                 href="/post-a-job"
                 className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full transition">
                 <span className="mr-2 text-xl">＋</span>
                 Post a job

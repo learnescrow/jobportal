@@ -1,27 +1,53 @@
+"use client";
+import { useEffect, useState } from "react";
 import Accordion from "@/components/accordion";
-interface JobPageProps {
-  params: Promise<{ slug: string }>;
-}
-
 import { Briefcase } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { usePaidStatus } from "@/hooks/usePaidStatus";
+import PremiumPopup from "@/components/PremiumPopup";
 
-export default async function PublicJobDetailPage(props: JobPageProps) {
-  const { slug } = await props.params;
+interface JobPageProps {
+  params: { slug: string };
+}
+export default function PublicJobDetailPage({ params }: JobPageProps) {
+  const router = useRouter();
+  const [job, setJob] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const { paid, loading: loadingPaidStatus } = usePaidStatus();
+  const [showPopup, setShowPopup] = useState(false);
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/wp-json/ukjobs/v1/jobs/${slug}`,
-    {
-      cache: "no-store",
+  const [isPaidJob, setIsPaidJob] = useState(false);
+
+  useEffect(() => {
+    async function loadJob() {
+      const { slug } = await params;
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/wp-json/ukjobs/v1/jobs/${slug}`,
+        { cache: "no-store" }
+      );
+
+      if (!res.ok) {
+        setJob(null);
+        setLoading(false);
+        return;
+      }
+
+      const data = await res.json();
+      setJob(data);
+
+      // ✅ detect paid job here
+      setIsPaidJob(true);
+
+      setLoading(false);
     }
-  );
 
-  if (!res.ok) {
-    return (
-      <div className="p-10 text-center text-red-500 text-xl">Job not found</div>
-    );
-  }
+    loadJob();
+  }, [params]);
 
-  const job = await res.json();
+  if (loading) return <p className="p-10 text-center">Loading...</p>;
+  if (!job)
+    return <p className="p-10 text-center text-red-500">Job not found</p>;
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -48,19 +74,38 @@ export default async function PublicJobDetailPage(props: JobPageProps) {
 
           <h3 className="text-lg font-semibold">{job.meta.company}</h3>
 
-          <a
-            href={job.meta.apply_link}
-            target="_blank"
-            className="text-sm text-blue-600 underline mt-1 mb-6">
-            Visit Website
-          </a>
+          {!paid && isPaidJob ? (
+            <span
+              onClick={() => setShowPopup(true)}
+              className="text-sm text-gray-400 mt-1 py-2 mb-6 cursor-pointer  hover:underline">
+              Website link locked 🔒
+            </span>
+          ) : (
+            <a
+              href={job.meta.apply_link}
+              target="_blank"
+              className="text-sm text-blue-600 underline mt-1 mb-6">
+              Visit Website
+            </a>
+          )}
 
-          <a
-            href={job.meta.apply_link}
-            target="_blank"
-            className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition">
-            Apply for position
-          </a>
+          {!paid && isPaidJob ? (
+            <button
+              onClick={() => setShowPopup(true)}
+              className="w-full md:w-auto px-8 py-3 bg-blue-600  text-white
+                 rounded-full font-medium cursor-pointer shadow-lg md:shadow-none">
+              🔒 Subscribe to apply
+            </button>
+          ) : (
+            <a
+              href={job.meta.apply_link}
+              target="_blank"
+              className="w-full md:w-auto px-8 py-4 bg-blue-600 text-white 
+                 rounded-full font-medium hover:bg-blue-700 transition 
+                 shadow-lg md:shadow-none text-center">
+              Apply for position
+            </a>
+          )}
         </div>
 
         {/* RIGHT SIDE */}
@@ -116,28 +161,48 @@ export default async function PublicJobDetailPage(props: JobPageProps) {
         <div className="mt-16 mb-32">
           <h2 className="text-2xl font-bold mb-4">Job Details</h2>
 
-          {job.meta.salary && (
-            <Accordion title="Salary">
-              €{Number(job.meta.salary).toLocaleString()}
-            </Accordion>
-          )}
+          <Accordion title="Salary">
+            €{Number(job.meta.salary).toLocaleString()} /ph
+          </Accordion>
 
-          {job.meta.experience && (
-            <Accordion title="Experience">
-              {job.meta.experience} years
-            </Accordion>
-          )}
+          <Accordion title="Experience">{job.meta.experience} years</Accordion>
 
           <Accordion title="Apply Link">
             <a
               href={job.meta.apply_link}
               target="_blank"
-              className="text-blue-600 underline break-all">
+              className="text-blue-600 underline">
               {job.meta.apply_link}
             </a>
           </Accordion>
         </div>
       </div>
+      {/* STICKY APPLY BUTTON (MOBILE) */}
+      <div
+        className=" max-w-3xl mx-auto
+    fixed bottom-4 left-1/2 -translate-x-1/2 z-50
+    md:static md:translate-x-0 md:bottom-auto md:left-auto 
+    flex w-full md:w-auto mt-10 p-4 md:p-0
+">
+        {!paid && isPaidJob ? (
+          <button
+            onClick={() => setShowPopup(true)}
+            className="w-full md:w-auto px-8 py-4 bg-blue-600  text-white
+                 rounded-full font-medium cursor-pointer shadow-lg md:shadow-none">
+            🔒 Subscribe to apply
+          </button>
+        ) : (
+          <a
+            href={job.meta.apply_link}
+            target="_blank"
+            className="w-full md:w-auto px-8 py-4 bg-blue-600 text-white 
+                 rounded-full font-medium hover:bg-blue-700 transition 
+                 shadow-lg md:shadow-none text-center">
+            Apply for position
+          </a>
+        )}
+      </div>
+      <PremiumPopup open={showPopup} onClose={() => setShowPopup(false)} />
     </div>
   );
 }

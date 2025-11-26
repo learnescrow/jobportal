@@ -37,10 +37,7 @@ export default function PublicJobDetailPage({ params }: JobPageProps) {
       setJob(data);
 
       // ✅ detect paid job here
-      const paid = data.categories?.some(
-        (cat: string) => cat.toLowerCase() === "paidjob"
-      );
-      setIsPaidJob(paid);
+      setIsPaidJob(true);
 
       setLoading(false);
     }
