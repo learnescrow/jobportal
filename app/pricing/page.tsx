@@ -52,7 +52,10 @@ export default function Pricing() {
           </ul>
 
           <div className="mt-8">
-            <PaymentButton plan="part_time" label="Subscribe £5" />
+            <PaymentButton
+              plan="price_1SYBDBJ6pHCh8WErfS0rxyuu"
+              label="Subscribe £5"
+            />
           </div>
         </motion.div>
 
@@ -88,7 +91,10 @@ export default function Pricing() {
           </ul>
 
           <div className="mt-8">
-            <PaymentButton label="Subscribe £15" plan="full_time" />
+            <PaymentButton
+              label="Subscribe £15"
+              plan="price_1SYBEvJ6pHCh8WEroEHVRc2K"
+            />
           </div>
         </motion.div>
 
@@ -123,7 +129,10 @@ export default function Pricing() {
           </ul>
 
           <div className="mt-8">
-            <PaymentButton plan="sponsorship" label="Subscribe £25" />
+            <PaymentButton
+              plan="price_1SYBFVJ6pHCh8WErUCy1t19i"
+              label="Subscribe £25"
+            />
           </div>
         </motion.div>
       </div>
