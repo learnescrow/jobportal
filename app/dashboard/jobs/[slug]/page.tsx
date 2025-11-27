@@ -167,14 +167,7 @@ export default function PublicJobDetailPage({ params }: JobPageProps) {
 
           <Accordion title="Experience">{job.meta.experience} years</Accordion>
 
-          <Accordion title="Apply Link">
-            <a
-              href={job.meta.apply_link}
-              target="_blank"
-              className="text-blue-600 underline">
-              {job.meta.apply_link}
-            </a>
-          </Accordion>
+        
         </div>
       </div>
       {/* STICKY APPLY BUTTON (MOBILE) */}

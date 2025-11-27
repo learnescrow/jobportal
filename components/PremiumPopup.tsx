@@ -53,18 +53,7 @@ export default function PremiumPopup({ open, onClose }: PremiumPopupProps) {
 
           {/* GLASS CARD */}
           <div className="mt-5 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl premium-card">
-            {/* PRICE ROW */}
-            <div className="flex items-end gap-4 mb-5">
-              <div className="text-white text-5xl font-extrabold">$5</div>
-
-              <div className="ml-auto text-right">
-                <span className="text-white font-semibold text-sm">
-                  per month
-                </span>
-                <br />
-                <span className="text-white/50 text-xs">Cancel anytime</span>
-              </div>
-            </div>
+           
 
             {/* CTA BUTTON */}
             <button

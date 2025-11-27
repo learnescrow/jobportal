@@ -77,7 +77,7 @@ export default function Pricing() {
 
           <ul className="space-y-3 text-gray-700 text-sm">
             <li className="leading-[25px]">
-              • 45-day featured listing renewed every month
+              • 30-day featured listing renewed every month
             </li>
             <li className="leading-[25px]">
               • Increased visibility across search results
@@ -115,7 +115,7 @@ export default function Pricing() {
 
           <ul className="space-y-3 text-gray-700 text-sm">
             <li className="leading-[25px]">
-              • Premium 60-day listing with sponsorship highlight
+              • Premium 30-day listing with sponsorship highlight
             </li>
             <li className="leading-[25px]">
               • Tailored visibility for skilled international applicants
