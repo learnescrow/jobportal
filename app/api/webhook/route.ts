@@ -18,142 +18,94 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (err: any) {
-    console.error("❌ Webhook signature error:", err.message);
-    return new Response(`Webhook Signature Error: ${err.message}`, {
-      status: 400,
-    });
+    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
-  // -------------------------------
-  // 🔥 EVENT HANDLERS
-  // -------------------------------
   switch (event.type) {
-    /* ------------------------------------------------------------------
-       1️⃣ USER CHECKOUT SUCCESS — FIRST PAYMENT
-    ------------------------------------------------------------------ */
+    /* --------------------------------------------
+       1️⃣ FIRST PAYMENT SUCCESS
+    -------------------------------------------- */
     case "checkout.session.completed": {
       const session: any = event.data.object;
 
-      const clerk_user_id = session.metadata?.userId;
+      const userId = session.metadata?.userId;
       const customer = session.customer;
       const subscriptionId = session.subscription;
 
+      if (!userId) return NextResponse.json({ received: true });
+
+      // full subscription
       const sub: any = await stripe.subscriptions.retrieve(subscriptionId);
-      const plan = sub.items.data[0].plan;
 
-      // PAYMENT = DONE ✔️
-      if (clerk_user_id) {
-        await fetch(
-          `${process.env.NEXT_PUBLIC_APISTRIPE_URL}/wp-json/jobportal/v1/subscription`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              clerk_user_id,
-              email: session.customer_details?.email || "",
-              name: session.customer_details?.name || "",
-
-              // ⭐ THIS MEANS PAYMENT DONE
-              plan_type: "premium",
-              status: "active",
-
-              stripe_customer_id: customer,
-              stripe_subscription_id: subscriptionId,
-
-              current_period_end: new Date(sub.current_period_end * 1000)
-                .toISOString()
-                .slice(0, 19)
-                .replace("T", " "),
-
-              last_payment_at: new Date()
-                .toISOString()
-                .slice(0, 19)
-                .replace("T", " "),
-            }),
-          }
-        );
-      }
+      await sendToWP({
+        clerk_user_id: userId,
+        email: session.customer_details?.email,
+        name: session.customer_details?.name,
+        plan_type: "monthly",
+        stripe_customer_id: customer,
+        stripe_subscription_id: subscriptionId,
+        status: sub.status,
+        current_period_end: new Date(
+          sub.current_period_end * 1000
+        ).toISOString(),
+        last_payment_at: new Date().toISOString(),
+      });
 
       break;
     }
 
-    /* ------------------------------------------------------------------
-       2️⃣ RENEWED PAYMENT / UPGRADE / DOWNGRADE
-    ------------------------------------------------------------------ */
+    /* --------------------------------------------
+       2️⃣ SUBSCRIPTION RENEWED / UPDATED
+    -------------------------------------------- */
     case "customer.subscription.updated": {
       const sub: any = event.data.object;
 
-      console.log("🔄 SUBSCRIPTION UPDATED");
-      console.log("Customer:", sub.customer);
-      console.log("Status:", sub.status);
+      const userId = sub.metadata?.userId; // If you stored metadata in subscription
 
-      await sendToWP("/update-subscription", {
+      await sendToWP({
+        clerk_user_id: userId,
         stripe_customer_id: sub.customer,
         stripe_subscription_id: sub.id,
         status: sub.status,
-        interval: sub.items.data[0].plan.interval,
-        amount: sub.items.data[0].plan.amount,
-        current_period_end: new Date(sub.current_period_end * 1000)
-          .toISOString()
-          .slice(0, 19)
-          .replace("T", " "),
+        current_period_end: new Date(
+          sub.current_period_end * 1000
+        ).toISOString(),
       });
 
       break;
     }
 
-    /* ------------------------------------------------------------------
-       3️⃣ SUBSCRIPTION STARTED (edge case)
-    ------------------------------------------------------------------ */
-    case "customer.subscription.created": {
-      const sub: any = event.data.object;
-
-      console.log("✨ SUBSCRIPTION CREATED (Stripe)", sub.id);
-
-      await sendToWP("/update-subscription", {
-        stripe_customer_id: sub.customer,
-        stripe_subscription_id: sub.id,
-        status: sub.status,
-        interval: sub.items.data[0].plan.interval,
-        amount: sub.items.data[0].plan.amount,
-        current_period_end: sub.current_period_end,
-      });
-
-      break;
-    }
-
-    /* ------------------------------------------------------------------
-       4️⃣ SUBSCRIPTION CANCELED
-    ------------------------------------------------------------------ */
+    /* --------------------------------------------
+       3️⃣ SUBSCRIPTION CANCELED
+    -------------------------------------------- */
     case "customer.subscription.deleted": {
       const sub: any = event.data.object;
 
-      console.log("❌ SUBSCRIPTION CANCELED");
+      const userId = sub.metadata?.userId;
 
-      await sendToWP("/cancel-subscription", {
-        stripe_customer_id: sub.customer,
+      await sendToWP({
+        clerk_user_id: userId,
+        status: "canceled",
       });
 
       break;
     }
 
-    /* ------------------------------------------------------------------
-       ❓ UNHANDLED EVENTS
-    ------------------------------------------------------------------ */
     default:
-      console.log("⚠️ Unhandled event:", event.type);
+      console.log("Unhandled event type:", event.type);
   }
 
   return NextResponse.json({ received: true });
 }
 
-/* -------------------------------------------------------
-   🛠 Helper: Safe request to WordPress (with logging)
---------------------------------------------------------- */
-async function sendToWP(route: string, body: any) {
+/* ----------------------------------------------------
+   Send to your ONLY WP endpoint:
+   /wp-json/jobportal/v1/subscription
+------------------------------------------------------ */
+async function sendToWP(body: any) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/wp-json/ukjobs/v1${route}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/wp-json/jobportal/v1/subscription`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -161,8 +113,8 @@ async function sendToWP(route: string, body: any) {
       }
     );
 
-    console.log(`WP UPDATED (${route}) →`, res.status);
+    console.log("WP UPDATED →", res.status);
   } catch (err) {
-    console.error("❌ Failed sending data to WP:", err);
+    console.error("❌ WP ERROR:", err);
   }
 }
