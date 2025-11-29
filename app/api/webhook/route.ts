@@ -93,7 +93,10 @@ export async function POST(req: Request) {
         status: sub.status,
         interval: sub.items.data[0].plan.interval,
         amount: sub.items.data[0].plan.amount,
-        current_period_end: sub.current_period_end,
+        current_period_end: new Date(sub.current_period_end * 1000)
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
       });
 
       break;
