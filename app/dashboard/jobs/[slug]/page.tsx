@@ -5,19 +5,21 @@ import { Briefcase } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePaidStatus } from "@/hooks/usePaidStatus";
 import PremiumPopup from "@/components/PremiumPopup";
-
+import { useUser } from "@clerk/nextjs";
 
 interface JobPageProps {
   params: { slug: string };
 }
 export default function PublicJobDetailPage({ params }: JobPageProps) {
   const router = useRouter();
+  const { user } = useUser();
   const [job, setJob] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const { paid, loading: loadingPaidStatus } = usePaidStatus();
   const [showPopup, setShowPopup] = useState(false);
 
   const [isPaidJob, setIsPaidJob] = useState(false);
+  console.log("Client user ID:", user?.id);
 
   useEffect(() => {
     async function loadJob() {
