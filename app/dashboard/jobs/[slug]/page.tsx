@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { usePaidStatus } from "@/hooks/usePaidStatus";
 import PremiumPopup from "@/components/PremiumPopup";
 
+
 interface JobPageProps {
   params: { slug: string };
 }
@@ -162,12 +163,10 @@ export default function PublicJobDetailPage({ params }: JobPageProps) {
           <h2 className="text-2xl font-bold mb-4">Job Details</h2>
 
           <Accordion title="Salary">
-            €{Number(job.meta.salary).toLocaleString()} /ph
+            €{Number(job.meta.salary).toLocaleString()}
           </Accordion>
 
           <Accordion title="Experience">{job.meta.experience} years</Accordion>
-
-        
         </div>
       </div>
       {/* STICKY APPLY BUTTON (MOBILE) */}

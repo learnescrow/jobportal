@@ -1,8 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Breadcrumb from "@/components/Breadcrumb";
-
-import DashboardHeader from "@/components/dashboard-header";
 
 export default async function DashboardLayout({
   children,
