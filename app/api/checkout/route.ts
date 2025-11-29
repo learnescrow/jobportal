@@ -1,3 +1,4 @@
+//File :- app/api/checkout/route.ts
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
@@ -11,8 +12,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: Request) {
   try {
     const { userId } = await auth();
+
+    // 🔥 FIXED REDIRECT
     if (!userId) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+      return NextResponse.json({ notAuthenticated: true }, { status: 401 });
     }
 
     const { priceId } = await req.json();
@@ -25,16 +28,13 @@ export async function POST(req: Request) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
-      payment_method_types: ["card"],
       line_items: [
         {
           price: priceId,
           quantity: 1,
         },
       ],
-      metadata: {
-        userId, // 🔥 SUPER IMPORTANT
-      },
+      metadata: { userId },
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cancel`,
     });

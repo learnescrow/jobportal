@@ -392,18 +392,16 @@ export default function Authentication() {
               : "Welcome"}
           </h1>
 
-          <p className="mb-6 font-semibold text-gray-600">
-            {step === "email"
-              ? "Enter your email to continue"
-              : `We sent a 6-digit code to ${email}`}
-          </p>
-
           {error && (
             <div className="text-red-600 text-sm font-semibold mb-4 p-3 bg-red-50 rounded-lg border border-red-200">
               {error}
             </div>
           )}
-
+          <p className="mb-6 font-semibold text-gray-600">
+            {step === "email"
+              ? "Enter your email to continue"
+              : `We sent a 6-digit code to ${email}`}
+          </p>
           <div className="space-y-4">
             {/* STEP 1 — EMAIL */}
             {step === "email" && (

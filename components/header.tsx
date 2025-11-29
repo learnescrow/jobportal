@@ -183,6 +183,15 @@ export default function Navbar() {
                             Dashboard
                           </button>
                         </li>
+                        {/* Logout */}
+                        <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
+                          <button
+                            onClick={() => signOut({ redirectUrl: "/auth" })}
+                            className="flex items-center gap-2 text-black hover:text-red-500 transition font-bold w-full">
+                            <LogoutSVG />
+                            Log out
+                          </button>
+                        </li>
                       </>
                     ) : (
                       <>
@@ -237,16 +246,6 @@ export default function Navbar() {
                         className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
                         <NewSvg />
                         News
-                      </button>
-                    </li>
-
-                    {/* Logout */}
-                    <li className="p-4 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
-                      <button
-                        onClick={() => signOut({ redirectUrl: "/auth" })}
-                        className="flex items-center gap-2 text-black hover:text-red-500 transition font-bold w-full">
-                        <LogoutSVG />
-                        Log out
                       </button>
                     </li>
                   </ul>
