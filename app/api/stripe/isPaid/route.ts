@@ -4,42 +4,43 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const { userId } = await auth();
 
-  // ⛔ Not logged in → user is not paid
   if (!userId) {
     return NextResponse.json({ paid: false });
   }
 
   console.log("🔍 Checking subscription for user:", userId);
 
-  // CALL WORDPRESS SUBSCRIPTION API
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_APISTRIPE_URL}/wp-json/jobportal/v1/subscription/${userId}`,
     { cache: "no-store" }
   );
 
-  if (!res.ok) {
-    console.log("❌ WP returned error:", res.status);
+  // Log response status
+  console.log("🌐 WP API Status:", res.status);
+
+  // ❗ You must parse JSON BEFORE logging the content
+  let data;
+  try {
+    data = await res.json();
+    console.log("📦 WP Subscription JSON:", data);
+  } catch (err) {
+    console.log("❌ Failed to parse JSON:", err);
     return NextResponse.json({ paid: false });
   }
 
-  const data = await res.json();
-
-  console.log("📦 Subscription response from WP:", data);
-
-  // If WP says user does not exist → free user
+  // If no subscription record → free
   if (!data.exists || !data.subscription) {
-    console.log("⚠️ No subscription found → paid = false");
+    console.log("⚠️ User has NO subscription in DB");
     return NextResponse.json({ paid: false });
   }
 
   const sub = data.subscription;
 
-  // ⚠️ WordPress table uses ENUM:
-  // status: active | canceled | expired
-  const isPaid = sub.status === "active";
+  console.log("💳 Subscription Status:", sub.status);
+  console.log("💳 Plan Type:", sub.plan_type);
+  console.log("💳 Current Period End:", sub.current_period_end);
 
-  console.log("💳 Subscription status:", sub.status);
-  console.log("💳 Paid:", isPaid);
+  const isPaid = sub.status === "active";
 
   return NextResponse.json({
     paid: isPaid,
