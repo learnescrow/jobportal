@@ -51,7 +51,6 @@ export function useSearchJobs(query: string) {
         if (!res.ok) throw new Error(`API Error: ${res.status}`);
 
         const data: Job[] = await res.json();
-        console.log(`🔍 Search results (${query}):`, data.length);
 
         setJobs(
           data.filter(

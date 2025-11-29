@@ -34,35 +34,46 @@ export async function POST(req: Request) {
     case "checkout.session.completed": {
       const session: any = event.data.object;
 
-      const userId = session.metadata?.userId;
+      const clerk_user_id = session.metadata?.userId;
       const customer = session.customer;
       const subscriptionId = session.subscription;
 
-      // Fetch full subscription details
       const sub: any = await stripe.subscriptions.retrieve(subscriptionId);
+      const plan = sub.items.data[0].plan;
 
-      console.log("🔥 NEW PAYMENT COMPLETED BY USER");
-      console.log("User:", userId);
-      console.log("Customer:", customer);
-      console.log("Status:", sub.status);
-      console.log("Plan:", sub.items.data[0].plan.id);
-      console.log("Interval:", sub.items.data[0].plan.interval);
-      console.log("Amount:", sub.items.data[0].plan.amount);
-      console.log("Current Period End:", sub.current_period_end);
+      // PAYMENT = DONE ✔️
+      if (clerk_user_id) {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_APISTRIPE_URL}/wp-json/jobportal/v1/subscription`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              clerk_user_id,
+              email: session.customer_details?.email || "",
+              name: session.customer_details?.name || "",
 
-      if (userId) {
-        await sendToWP("/update-stripe", {
-          userId,
-          stripe_customer_id: customer,
-          stripe_subscription_id: subscriptionId,
-          stripe_plan: sub.items.data[0].plan.id,
-          amount: sub.items.data[0].plan.amount,
-          interval: sub.items.data[0].plan.interval,
-          currency: sub.items.data[0].plan.currency,
-          status: sub.status,
-          current_period_end: sub.current_period_end,
-        });
+              // ⭐ THIS MEANS PAYMENT DONE
+              plan_type: "premium",
+              status: "active",
+
+              stripe_customer_id: customer,
+              stripe_subscription_id: subscriptionId,
+
+              current_period_end: new Date(sub.current_period_end * 1000)
+                .toISOString()
+                .slice(0, 19)
+                .replace("T", " "),
+
+              last_payment_at: new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace("T", " "),
+            }),
+          }
+        );
       }
+
       break;
     }
 

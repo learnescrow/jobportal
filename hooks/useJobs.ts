@@ -34,13 +34,13 @@ export function useJobs() {
           ? `${baseUrl}/wp-json/ukjobs/v1/jobs`
           : "https://lightpink-gull-213019.hostingersite.com/wp-json/ukjobs/v1/jobs";
 
-        console.log("🔍 Fetching Jobs:", url);
+        
 
         const res = await fetch(url, { cache: "no-store" });
         if (!res.ok) throw new Error(`API Error: ${res.status}`);
 
         const data: Job[] = await res.json();
-        console.log("📦 FULL JOBS DATA:", data);
+      
 
         if (!Array.isArray(data)) throw new Error("Invalid API response");
 
@@ -50,7 +50,6 @@ export function useJobs() {
             !job.categories?.some((cat) => cat.toLowerCase() === "paidjob")
         );
 
-        console.log(`🚀 Public Jobs: ${publicJobs.length}`);
         setJobs(publicJobs);
         setError(null);
       } catch (err) {
