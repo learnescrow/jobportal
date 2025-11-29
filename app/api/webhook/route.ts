@@ -133,7 +133,7 @@ async function sendToWP(body: any) {
     );
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/wp-json/jobportal/v1/subscription`,
+      `${process.env.NEXT_PUBLIC_APISTRIPE_URL}/wp-json/jobportal/v1/subscription`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
