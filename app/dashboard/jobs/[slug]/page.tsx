@@ -1,3 +1,4 @@
+//File : - app/dashboard/jobs/[slug]/page.tsx
 "use client";
 import { useEffect, useState } from "react";
 import Accordion from "@/components/accordion";
