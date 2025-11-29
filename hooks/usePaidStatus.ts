@@ -1,12 +1,12 @@
-//File :- hooks/usePaidStatus.ts
 "use client";
 
 import { useEffect, useState } from "react";
 
-interface PaidStatus {
+interface PaidStatusResponse {
   paid: boolean;
   plan?: string;
   status?: string;
+  current_period_end?: string;
 }
 
 export function usePaidStatus() {
@@ -18,14 +18,18 @@ export function usePaidStatus() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch("/api/stripe/isPaid", { cache: "no-store" });
-        const data: PaidStatus = await res.json();
+        const res = await fetch("/api/stripe/isPaid", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        const data: PaidStatusResponse = await res.json();
 
         setPaid(data.paid);
         setPlan(data.plan || null);
         setStatus(data.status || null);
       } catch (err) {
-        console.error("Failed to fetch paid status:", err);
+        console.error("❌ Failed to fetch paid status:", err);
       } finally {
         setLoading(false);
       }
