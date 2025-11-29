@@ -45,9 +45,9 @@ export async function POST(req: Request) {
         stripe_customer_id: customer,
         stripe_subscription_id: subscriptionId,
         status: sub.status,
-        current_period_end: new Date(
-          sub.current_period_end * 1000
-        ).toISOString(),
+        current_period_end: sub.current_period_end
+          ? new Date(sub.current_period_end * 1000).toISOString()
+          : undefined,
         last_payment_at: new Date().toISOString(),
       });
 
@@ -60,16 +60,16 @@ export async function POST(req: Request) {
     case "customer.subscription.updated": {
       const sub: any = event.data.object;
 
-      const userId = sub.metadata?.userId; // If you stored metadata in subscription
+      const userId = sub.metadata?.userId;
 
       await sendToWP({
         clerk_user_id: userId,
         stripe_customer_id: sub.customer,
         stripe_subscription_id: sub.id,
         status: sub.status,
-        current_period_end: new Date(
-          sub.current_period_end * 1000
-        ).toISOString(),
+        current_period_end: sub.current_period_end
+          ? new Date(sub.current_period_end * 1000).toISOString()
+          : undefined,
       });
 
       break;
@@ -91,6 +91,29 @@ export async function POST(req: Request) {
       break;
     }
 
+    /* --------------------------------------------
+       4️⃣ SUBSCRIPTION CREATED (handle this too!)
+    -------------------------------------------- */
+    case "customer.subscription.created": {
+      const sub: any = event.data.object;
+
+      const userId = sub.metadata?.userId;
+
+      if (userId) {
+        await sendToWP({
+          clerk_user_id: userId,
+          stripe_customer_id: sub.customer,
+          stripe_subscription_id: sub.id,
+          status: sub.status,
+          current_period_end: sub.current_period_end
+            ? new Date(sub.current_period_end * 1000).toISOString()
+            : undefined,
+        });
+      }
+
+      break;
+    }
+
     default:
       console.log("Unhandled event type:", event.type);
   }
@@ -104,12 +127,17 @@ export async function POST(req: Request) {
 ------------------------------------------------------ */
 async function sendToWP(body: any) {
   try {
+    // Filter out undefined values
+    const cleanBody = Object.fromEntries(
+      Object.entries(body).filter(([_, v]) => v !== undefined)
+    );
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/wp-json/jobportal/v1/subscription`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(cleanBody),
       }
     );
 
