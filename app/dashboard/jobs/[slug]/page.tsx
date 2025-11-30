@@ -20,7 +20,7 @@ export default function PublicJobDetailPage({ params }: JobPageProps) {
   const [showPopup, setShowPopup] = useState(false);
 
   const [isPaidJob, setIsPaidJob] = useState(false);
-  console.log("Client user ID:", user?.id);
+ 
 
   useEffect(() => {
     async function loadJob() {
