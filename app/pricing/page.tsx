@@ -53,7 +53,7 @@ export default function Pricing() {
 
           <div className="mt-8">
             <PaymentButton
-              plan="price_1SXRE0JH3syQM9G6FZpngfhT"
+              plan="price_1SZbrMJH3syQM9G6tkf8bsx7"
               label="Subscribe £5"
             />
           </div>
