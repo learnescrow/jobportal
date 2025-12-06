@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Head from "next/head";
+import Script from "next/script";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { Lexend } from "next/font/google";
@@ -23,22 +23,18 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <Head>
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-T2DQBH37TP"
-          ></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-T2DQBH37TP');
-            `,
-            }}
-          />
-        </Head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-T2DQBH37TP"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-T2DQBH37TP');
+          `}
+        </Script>
         <body className="antialiased">
           <PageLayout>{children}</PageLayout>
         </body>
