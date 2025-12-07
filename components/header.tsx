@@ -136,7 +136,7 @@ export default function Navbar() {
                 setDropdown((v) => !v);
               }}
               className="font-bold rounded-full overflow-hidden cursor-pointer bg-[#5d2bff] text-white px-5 py-2 hover:underline">
-              {clicked ? "Close" : "Menu"}
+              Menu
             </button>
 
             {/* DROPDOWN */}
@@ -181,6 +181,13 @@ export default function Navbar() {
                             onClick={() => router.push("/dashboard")}
                             className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
                             Dashboard
+                          </button>
+                        </li>
+                        <li className="p-3 hover:bg-[#f4f4f4] transition-colors hover:rounded-2xl">
+                          <button
+                            onClick={() => router.push("/profile")}
+                            className="flex items-center gap-2 text-black hover:text-[#377DFF] transition font-bold">
+                            Profile
                           </button>
                         </li>
                         {/* Logout */}
