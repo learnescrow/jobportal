@@ -489,7 +489,7 @@ export default function Authentication() {
                       <button
                         onClick={handleChangeEmail}
                         disabled={loading || resending || isVerifying}
-                        className="flex-1 text-sm font-semibold text-gray-600 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                        className="flex-1 text-sm font-semibold text-gray-600 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition word-no-wrap whitespace-nowrap">
                         Change Email
                       </button>
                     </div>
