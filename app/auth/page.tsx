@@ -478,7 +478,7 @@ export default function Authentication() {
 
                 <div className="flex gap-3 pt-2">
                   <div className="flex flex-col gap-3 pt-2">
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 w-full flex-wrap">
                       <button
                         onClick={handleResendOtp}
                         disabled={resending || loading || isVerifying}
