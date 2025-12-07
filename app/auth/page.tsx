@@ -373,7 +373,7 @@ export default function Authentication() {
   // --- Forgot Email Modal (must be returned) ---
   if (showForgotModal) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-white/10 bg-opacity-40 flex items-center justify-center z-50">
         <div className="bg-white w-[90%] max-w-md p-6 rounded-2xl shadow-xl relative">
           <h2 className="text-xl font-bold mb-3 text-gray-900">Need Help?</h2>
 
@@ -385,7 +385,7 @@ export default function Authentication() {
 
           <a
             href="mailto:worklancehire@gmail.com"
-            className="block w-full text-center bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition">
+            className="block w-full text-center bg-blue-600 text-white font-semibold py-3 rounded-full hover:bg-blue-700 transition">
             Contact Support
           </a>
 
