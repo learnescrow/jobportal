@@ -32,9 +32,17 @@ export async function POST(req: Request) {
       const customer = session.customer;
       const subscriptionId = session.subscription;
 
-      if (!userId) return NextResponse.json({ received: true });
+      if (!userId) {
+        console.log("Missing userId in metadata");
+        return NextResponse.json({ received: true });
+      }
 
-      // full subscription
+      // ⭐ FIX: Write metadata into the subscription
+      await stripe.subscriptions.update(subscriptionId, {
+        metadata: { userId },
+      });
+
+      // Retrieve updated subscription
       const sub: any = await stripe.subscriptions.retrieve(subscriptionId);
 
       await sendToWP({
@@ -55,21 +63,26 @@ export async function POST(req: Request) {
     }
 
     /* --------------------------------------------
-       2️⃣ SUBSCRIPTION RENEWED / UPDATED
+       2️⃣ SUBSCRIPTION UPDATED (renewal, payment succeeded)
     -------------------------------------------- */
     case "customer.subscription.updated": {
       const sub: any = event.data.object;
 
       const userId = sub.metadata?.userId;
 
+      if (!userId) {
+        console.log(" Missing userId in subscription.updated");
+        break;
+      }
+
       await sendToWP({
         clerk_user_id: userId,
         stripe_customer_id: sub.customer,
         stripe_subscription_id: sub.id,
         status: sub.status,
-        current_period_end: sub.current_period_end
-          ? new Date(sub.current_period_end * 1000).toISOString()
-          : undefined,
+        current_period_end: new Date(
+          sub.current_period_end * 1000
+        ).toISOString(),
       });
 
       break;
@@ -83,6 +96,11 @@ export async function POST(req: Request) {
 
       const userId = sub.metadata?.userId;
 
+      if (!userId) {
+        console.log(" Missing userId in subscription.deleted");
+        break;
+      }
+
       await sendToWP({
         clerk_user_id: userId,
         status: "canceled",
@@ -92,7 +110,7 @@ export async function POST(req: Request) {
     }
 
     /* --------------------------------------------
-       4️⃣ SUBSCRIPTION CREATED (handle this too!)
+       4️⃣ SUBSCRIPTION CREATED (must sync metadata!)
     -------------------------------------------- */
     case "customer.subscription.created": {
       const sub: any = event.data.object;
@@ -105,29 +123,29 @@ export async function POST(req: Request) {
           stripe_customer_id: sub.customer,
           stripe_subscription_id: sub.id,
           status: sub.status,
-          current_period_end: sub.current_period_end
-            ? new Date(sub.current_period_end * 1000).toISOString()
-            : undefined,
+          current_period_end: new Date(
+            sub.current_period_end * 1000
+          ).toISOString(),
         });
+      } else {
+        console.log("Missing userId in subscription.created");
       }
 
       break;
     }
 
     default:
-      console.log("Unhandled event type:", event.type);
+      console.warn(event.type);
   }
 
   return NextResponse.json({ received: true });
 }
 
 /* ----------------------------------------------------
-   Send to your ONLY WP endpoint:
-   /wp-json/jobportal/v1/subscription
+   Send to WP endpoint
 ------------------------------------------------------ */
 async function sendToWP(body: any) {
   try {
-    // Filter out undefined values
     const cleanBody = Object.fromEntries(
       Object.entries(body).filter(([_, v]) => v !== undefined)
     );
@@ -140,9 +158,7 @@ async function sendToWP(body: any) {
         body: JSON.stringify(cleanBody),
       }
     );
-
-    console.log("WP UPDATED →", res.status);
   } catch (err) {
-    console.error("❌ WP ERROR:", err);
+    console.warn(err);
   }
 }
