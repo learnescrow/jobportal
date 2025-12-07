@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       const subscriptionId = session.subscription;
 
       if (!userId) {
-        console.log("Missing userId in metadata");
+        console.log("❌ Missing userId in metadata");
         return NextResponse.json({ received: true });
       }
 
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       const userId = sub.metadata?.userId;
 
       if (!userId) {
-        console.log(" Missing userId in subscription.updated");
+        console.log("❌ Missing userId in subscription.updated");
         break;
       }
 
@@ -97,7 +97,7 @@ export async function POST(req: Request) {
       const userId = sub.metadata?.userId;
 
       if (!userId) {
-        console.log(" Missing userId in subscription.deleted");
+        console.log("❌ Missing userId in subscription.deleted");
         break;
       }
 
@@ -128,14 +128,14 @@ export async function POST(req: Request) {
           ).toISOString(),
         });
       } else {
-        console.log("Missing userId in subscription.created");
+        console.log("❌ Missing userId in subscription.created");
       }
 
       break;
     }
 
     default:
-      console.warn(event.type);
+      console.log("Unhandled event type:", event.type);
   }
 
   return NextResponse.json({ received: true });
@@ -158,7 +158,9 @@ async function sendToWP(body: any) {
         body: JSON.stringify(cleanBody),
       }
     );
+
+    console.log("WP UPDATED →", res.status);
   } catch (err) {
-    console.warn(err);
+    console.error("❌ WP ERROR:", err);
   }
 }
